@@ -26,7 +26,7 @@ fn main() {
             Err(why) => panic!("couldn't read line: {}", why),
         };
         println!("{}", line);
-        if line_count ==10{
+        if line_count == 10 {
             break
         }
     }
