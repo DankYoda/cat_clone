@@ -27,7 +27,7 @@ fn main() {
         line_count += 1;
         let line = match line_result {
             Ok(line) => line,
-            Err(why) => panic!("couldn't read line: {}", why),
+            Err(why) => panic!("couldn't read line: {}. {}", line_count, why),
         };
         println!("{}", line);
         if line_count == 10 {
