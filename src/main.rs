@@ -2,6 +2,7 @@ use std::env;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::path::Path;
+use std::process::exit;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -14,7 +15,10 @@ fn main() {
     }
     let file = match File::open(&path) {
         Ok(file) => file,
-        Err(why) => panic!("couldn't open {}: {}", path.display(), why),
+        Err(why) => {
+            println!("Error opening file: {}. {}", path.display(), why);
+            exit(2);
+        },
     };
 
     let reader = BufReader::new(file);
@@ -30,6 +34,4 @@ fn main() {
             break
         }
     }
-    println!("\n");
-    print!("I did the thing!!!");
 }
