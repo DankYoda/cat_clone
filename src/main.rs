@@ -1,6 +1,6 @@
 use std::env;
 use std::fs::File;
-use std::io::Read;
+use std::io::{BufRead, BufReader};
 use std::path::Path;
 
 fn main() {
@@ -12,14 +12,24 @@ fn main() {
     else {
         path = Path::new(args[1].as_str());
     }
-    let mut file = match File::open(&path) {
+    let file = match File::open(&path) {
         Ok(file) => file,
         Err(why) => panic!("couldn't open {}: {}", path.display(), why),
     };
 
-    let mut s = String::new();
-    match file.read_to_string(&mut s) {
-        Ok(_) => print!("{} contains:\n{}", path.display(), s),
-        Err(why) => panic!("couldn't read {}: {}", path.display(), why),
+    let reader = BufReader::new(file);
+    let mut line_count = 0;
+    for line_result in reader.lines() {
+        line_count += 1;
+        let line = match line_result {
+            Ok(line) => line,
+            Err(why) => panic!("couldn't read line: {}", why),
+        };
+        println!("{}", line);
+        if line_count ==10{
+            break
+        }
     }
+    println!("\n");
+    print!("I did the thing!!!");
 }
