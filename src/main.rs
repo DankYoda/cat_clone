@@ -1,22 +1,21 @@
-use std::env;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::path::Path;
 use std::process::exit;
-
+use clap::Parser;
+#[derive(Parser, Debug)]
+#[command(version, about, long_about = None)]
+struct Args {
+    #[arg(short, long)]
+    file_path: String,
+}
 fn main() {
-    let args: Vec<String> = env::args().collect();
-    let path: &Path;
-    if args.len() < 2 {
-        path = Path::new("potato.txt");
-    }
-    else {
-        path = Path::new(args[1].as_str());
-    }
-    let file = match File::open(&path) {
+    let args = Args::parse();
+    let file_path = Path::new(&args.file_path);
+    let file = match File::open(file_path) {
         Ok(file) => file,
         Err(why) => {
-            println!("Error opening file: {}. {}", path.display(), why);
+            println!("Error opening file: {}. {}", file_path.display(), why);
             exit(2);
         },
     };
