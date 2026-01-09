@@ -6,7 +6,7 @@ use clap::Parser;
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
-    #[arg(short, long, required = false, num_args = 1..)]
+    #[arg(short, long, required = true, num_args = 1..)]
     file_paths: Vec<String>,
 }
 fn main() {
